@@ -4,14 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campo Minado</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style/style.css">
+ 
+    <script src="scripts/gameloop.js" defer></script>
+    <script src="scripts/instrucoes.js" defer></script>
 </head>
 <body>
-    <h1>💥💣 Campo Minado 💣💥 </h1>
-    <div id="game-container"></div>
 
-    <button onclick="resetGame() "> replay </button>
+    <h1>💥💣 Campo Minado 💣💥</h1>
+
+    <!-- Wrapper para alinhar jogo e botões -->
+    <div class="game-wrapper">
+        <!-- Tabuleiro do jogo -->
+        <div id="game-container"></div>
+        <!-- Contêiner dos botões -->
+        <div class="button-container">
+            <button class="button-reset" onclick="resetGame()">🔄 Replay</button>
+            <button id="openPopup">📜 Instruções</button>
+        </div>
+    </div>
+
+    <!-- Popup de instruções -->
+    <div id="popup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="closePopup">❌</span>
+            <h2>Como Jogar Campo Minado</h2>
+            <p>O objetivo do jogo é revelar todas as células que não contêm minas.</p>
+            <p>Clique em uma célula para revelar seu conteúdo.</p>
+            <p>Números indicam quantas minas estão ao redor.</p>
+            <p>Evite clicar em uma mina para não perder!</p>
+        </div>
+    </div>
+ 
+    <!-- TO DO:
+        loops aprimorado de gameplay
+        1 - Ao perder janela de derrota com retry
+        2 - ao ganhar janela de vitoria
+        3 - Leveis de diciculdade (aumentar numero de bombs)
+        4 - adicionar som input e explosão 
+        5 - Melhorar o desing da Ui 
+        6 - adicionar uma janela ou popup com as instruções do game  -->
     
 </body>
 </html>

@@ -6,7 +6,7 @@ const bombCount = 14;
 
 //Cria a boad do game
 function createBoard(){
-    const cells = [];
+    let cells = [];
     for(let i=0; i< rows*cols;i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell")
@@ -75,9 +75,21 @@ function getAdjacentBombs(index) {
 }
 
 function resetGame() {
-    gameContainer.innerHTML = "";
-    cells = createBoard();
-    cells.forEach((cell) => cell.addEventListener("click", handleCellClick))
+    // Reseta o estado das células sem limpar o conteúdo HTML
+    cells.forEach(cell => {
+        cell.classList.remove("revealed", "bomb");
+        cell.innerHTML = ""; // Limpa o conteúdo textual de cada célula
+    });
+
+    // Redistribui as bombas nas células
+    let bombsPlaced = 0;
+    while (bombsPlaced < bombCount) {
+        const randomIndex = Math.floor(Math.random() * cells.length);
+        if (!cells[randomIndex].classList.contains("bomb")) {
+            cells[randomIndex].classList.add("bomb");
+            bombsPlaced++;
+        }
+    }
 }
 
 const cells = createBoard()
