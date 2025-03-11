@@ -1,115 +1,106 @@
-/* Estilização básica para a página */
+/* Estilização básica para a página com tema retro/console */
 body {
-    font-family: Arial, sans-serif; /* Fonte da página */
-    display: flex; /* Alinhamento flexível para centralizar o conteúdo */
-    flex-direction: column; /* Direção em coluna */
-    align-items: center; /* Centraliza os itens horizontalmente */
-    background-color: #282c34; /* Cor de fundo escura */
-    color: white; /* Texto branco */
-    margin: 0; /* Remove margens da página */
-    padding: 20px; /* Espaço interno na página */
-  }
+  font-family: 'Press Start 2P', cursive; /* Use uma fonte pixelada, ex: disponível no Google Fonts */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000; /* Fundo preto para remeter à tela CRT */
+  color: #0f0; /* Verde brilhante, típico dos displays antigos */
+  margin: 0;
+  padding: 20px;
+}
 
-  /* Estilização do título */
-  h1 {
-    margin-bottom: 20px; /* Espaço abaixo do título */
-    color: #ff6f61; /* Cor laranja */
-  }
+/* Estilização do título com efeito retro */
+h1 {
+  margin-bottom: 20px;
+  color: #ff6f61;
+  text-shadow: 0 0 5px #ff6f61;
+}
 
-  /* Contêiner do tabuleiro */
-  #game-container {
-    display: grid; /* Usa grade para organizar as células */
-    grid-template-columns: repeat(10, 50px); /* 10 colunas de 50px cada */
-    grid-gap: 5px; /* Espaço entre as células */
-    background-color: #444; /* Cor de fundo do tabuleiro */
-    padding: 10px; /* Espaço interno do tabuleiro */
-    border-radius: 10px; /* Bordas arredondadas */
-  }
+/* Contêiner do tabuleiro com efeito CRT */
+#game-container {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-gap: 5px;
+  background: radial-gradient(ellipse at center, #222 0%, #444 100%);
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+}
 
-  /* Estilização básica das células */
-  .cell {
-    width: 50px; /* Largura das células */
-    height: 50px; /* Altura das células */
-    display: flex; /* Centraliza conteúdo */
-    justify-content: center; /* Alinha horizontalmente o conteúdo */
-    align-items: center; /* Alinha verticalmente o conteúdo */
-    font-size: 24px; /* Tamanho do texto dentro das células */
-    background-color: #61dafb; /* Cor inicial das células (azul) */
-    border-radius: 5px; /* Bordas arredondadas */
-    cursor: pointer; /* Mostra cursor de clique */
-    transition: transform 0.2s, background-color 0.2s; /* Animação suave ao interagir */
-    color: transparent; /* Texto invisível inicialmente */
-  }
+/* Efeito de scanlines para simular uma tela CRT */
+#game-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.2) 2px,
+    rgba(0, 0, 0, 0.2) 3px
+  );
+}
 
-  /* Efeito de hover para interação visual */
-  .cell:hover {
-    transform: scale(1.1); /* Aumenta ligeiramente a célula ao passar o mouse */
-  }
+/* Estilização das células – mantém o aspecto visual, mas com toque retro */
+.cell {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  background-color: #61dafb;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  color: transparent;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
 
-  /* Célula revelada */
-  .cell.revealed {
-    background-color: #b2f7ef; /* Cor de célula segura */
-    color: black; /* Mostra o texto (número de bombas adjacentes) */
-  }
+.cell:hover {
+  transform: scale(1.1);
+}
 
-  /* Célula revelada contendo uma bomba */
-  .cell.bomb.revealed {
-    background-color: #ff6f61; /* Cor vermelha para bomba */
-    color: white; /* Ícone de bomba em branco */
-  }
+.cell.revealed {
+  background-color: #b2f7ef;
+  color: #000;
+}
 
-  /*------------------------------------------------------------------------------------------------*/
+.cell.bomb.revealed {
+  background-color: #ff6f61;
+  color: #fff;
+}
 
-  .button-reset {
-    top: 10px;
-    right: 15px;
-    font-size: 18px;
-    cursor: pointer;
-  }
+/* Botões com estilo de console retro */
+.button-reset,
+#openPopup {
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #61dafb;
+  color: #282c34;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+  width: 150px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
 
-  /*-------------------------------------------------------------------------------------------------------*/
+.button-reset:hover,
+#openPopup:hover {
+  transform: scale(1.1);
+  background-color: #45a0d6;
+}
 
-  /* Estilos do botão instruções */
-  #openPopup {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  /*Estilos do fundo do popup*/
-  .popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-  }
-
-  /*Eslilos do conteúdo do popup*/
-  .popup-content {
-    background: white;
-    color: #282c34;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-    position: relative;
-  }
-
-  /*Botão de fechar*/
-  .closePopup  {
-    position: absolute;
-    top: 15px;
-    right: 10px;
-    font-size: 18px;
-    cursor: pointer;
-  }
-
-  /*--------------------------------------------------------------------------------------------------------*/
 /* Contêiner principal para jogo e botões */
 .game-wrapper {
   display: flex;
@@ -126,32 +117,55 @@ body {
   align-items: center;
   gap: 15px;
   padding: 20px;
-  background: #ccc;
+  background: #222;
+  border: 3px solid #0f0;
   border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px #0f0;
 }
 
-/* Estilos dos botões */
-.button-reset,
-#openPopup {
-  padding: 12px 24px;
-  font-size: 18px;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
+/* Estilização para a tela de seleção de dificuldade com tema de console */
+.difficulty-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  padding: 30px 20px;
+  border: 3px solid #0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #0f0;
+  width: 300px;
+  margin-top: 50px;
+}
+
+.difficulty-selection h2 {
+  margin-bottom: 20px;
+  color: #ff6f61;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 0 5px #ff6f61;
+}
+
+.container__botao__dificuldade {
   background-color: #61dafb;
   color: #282c34;
-  font-weight: bold;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  margin: 10px 0;
+  cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
-  width: 150px;
+  width: 100%;
   text-align: center;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
 }
 
-/* Efeito de hover */
-.button-reset:hover,
-#openPopup:hover {
-  transform: scale(1.1);
+.container__botao__dificuldade:hover {
+  transform: scale(1.05);
   background-color: #45a0d6;
 }
 
-
+.container__botao__dificuldade:active {
+  transform: scale(0.98);
+}

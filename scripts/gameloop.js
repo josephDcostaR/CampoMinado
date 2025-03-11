@@ -1,30 +1,69 @@
 const gameContainer = document.getElementById("game-container")
 const rows = 10;
 const cols = 10;
-const bombCount = 14;
+let bombCount = 14;
+let cells = []
 
 
-//Cria a boad do game
-function createBoard(){
-    let cells = [];
-    for(let i=0; i< rows*cols;i++) {
+//Dificuldade
+// Dificuldade
+// Exemplo: após selecionar a dificuldade, exibir a área do jogo
+function niveisDeDificuldade(event) {
+    let valor = event.target.dataset.value;
+    switch (valor) {
+      case 'facil':
+        bombCount = 14;
+        break;
+      case 'medio':
+        bombCount = 28;
+        break;
+      case 'dificil':
+        bombCount = 56;
+        break;
+    }
+    desabilitarOutrosBotoes(event.target);
+    document.getElementById("difficulty-selection").style.display = "none";
+    document.getElementById("game-wrapper").style.display = "flex";
+    createBoard();
+    cells.forEach((cell) => cell.addEventListener("click", handleCellClick));
+  }
+  
+  function desabilitarOutrosBotoes(botaoClicado) {
+    document.querySelectorAll('.container__botao__dificuldade').forEach(botao => {
+      if (botao !== botaoClicado) {
+        botao.setAttribute('disabled', true);
+      }
+    });
+  }
+
+
+//Criar Board
+function createBoard() {
+    gameContainer.innerHTML = ""; // Limpa o conteúdo anterior do tabuleiro
+    cells = []; // Limpa a lista de células
+
+    // Cria as células do tabuleiro
+    for (let i = 0; i < rows * cols; i++) {
         const cell = document.createElement("div");
-        cell.classList.add("cell")
-        cell.dataset.id = i
-        gameContainer.appendChild(cell)
-        cells.push(cell)
+        cell.classList.add("cell");
+        cell.dataset.id = i;
+        gameContainer.appendChild(cell);
+        cells.push(cell);
     }
 
-    let bombsPlaced = 0
-    while(bombsPlaced<bombCount) {
-        const ramdomIndex = Math.floor(Math.random() * cells.length)
-        if(!cells[ramdomIndex].classList.contains("bomb")) {
-            cells[ramdomIndex].classList.add("bomb")
-            bombsPlaced++
+    // Coloca as bombas no tabuleiro
+    let bombsPlaced = 0;
+    while (bombsPlaced < bombCount) {
+        const randomIndex = Math.floor(Math.random() * cells.length);
+        if (!cells[randomIndex].classList.contains("bomb")) {
+            cells[randomIndex].classList.add("bomb");
+            bombsPlaced++;
         }
     }
+
     return cells;
 }
+
 
 //Lida com o click
 function handleCellClick(event){
@@ -75,22 +114,8 @@ function getAdjacentBombs(index) {
 }
 
 function resetGame() {
-    // Reseta o estado das células sem limpar o conteúdo HTML
-    cells.forEach(cell => {
-        cell.classList.remove("revealed", "bomb");
-        cell.innerHTML = ""; // Limpa o conteúdo textual de cada célula
-    });
-
-    // Redistribui as bombas nas células
-    let bombsPlaced = 0;
-    while (bombsPlaced < bombCount) {
-        const randomIndex = Math.floor(Math.random() * cells.length);
-        if (!cells[randomIndex].classList.contains("bomb")) {
-            cells[randomIndex].classList.add("bomb");
-            bombsPlaced++;
-        }
-    }
+    // Recarrega a página atual, reiniciando o estado do jogo
+    location.reload();
 }
 
-const cells = createBoard()
-cells.forEach((cell)=>cell.addEventListener("click", handleCellClick))
+
