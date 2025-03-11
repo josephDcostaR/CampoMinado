@@ -1,0 +1,23 @@
+# Ignorar pastas e arquivos específicos do Visual Studio Code
+.vscode/
+
+# Ignorar arquivos de dependências ou de compilação (caso existam)
+node_modules/
+
+# Ignorar arquivos temporários de sistemas operacionais
+.DS_Store       # macOS
+Thumbs.db       # Windows
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de configuração do editor
+*.sublime-workspace
+*.sublime-project
+
+# Ignorar arquivos gerados pela IDE
+*.swp           # Arquivos temporários do Vim
+*.bak           # Arquivos de backup
+
+# Ignorar arquivos de cache
+*.cache
